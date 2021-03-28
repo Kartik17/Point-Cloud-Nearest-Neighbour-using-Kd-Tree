@@ -21,8 +21,7 @@ class Kdtree{
             this->num_pts = 0;
         }
 
-        Kdtree(PointCloud<T>& pc, size_t dim){
-            this->total_dim = dim;
+        Kdtree(PointCloud<T>& pc, const size_t& d): dim(d){
             this->num_pts = pc.get_size();
             this->root = this->make_tree(pc,0, this->num_pts, 0);
         }
