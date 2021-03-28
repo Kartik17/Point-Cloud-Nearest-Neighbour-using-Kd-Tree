@@ -10,23 +10,20 @@ class Point{
         
     public:    
         Point(){
-            point = nullptr;
-            dim = 0;
+            this->point = nullptr;
+            this->dim = 0;
         }
 
-        Point(const std::vector<T>& pnt, const size_t& d){
+        Point(const std::vector<T>& pnt, const size_t& d): dim(d){
             
-            point = new T[d];
-            dim = d;
-            for(size_t i=0; i<dim; ++i)
+            this->point = new T[this->dim];
+            for(size_t i=0; i < this->dim; ++i)
                 point[i] = pnt[i];
         }
     
-        Point(const T* pnt, const size_t& d){
-            
-            point = new T[d];
-            dim = d;
-            for(size_t i=0; i<dim; ++i)
+        Point(const T* pnt, const size_t& d): dim(d){
+            point = new T[this->dim];
+            for(size_t i=0; i < this->dim; ++i)
                 point[i] = pnt[i];
         }
         
