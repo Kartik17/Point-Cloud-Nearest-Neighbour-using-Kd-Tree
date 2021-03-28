@@ -11,7 +11,7 @@ int main()
     // Search for NN of this point
     float p1[] = {32,51,12};
     Point<float> point1(p1,dim);
-    twotree.nn(point1).print_Point();
+    twotree.nearest_neighbour(point1).print_Point();
 
 
     dim = 2;
@@ -23,7 +23,7 @@ int main()
     // Search for NN of this point
     float p2[] = {0,7};
     Point<float> point2(p2,dim);
-    twotree2.nn(point2).print_Point();
+    twotree2.nearest_neighbour(point2).print_Point();
 
     return 0;
 }
