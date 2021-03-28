@@ -21,8 +21,7 @@ public:
         this->points = nullptr;
     }
 
-    PointCloud(const std::vector<std::vector<T>> arr, const size_t& dim){
-        this->dim = dim;
+    PointCloud(const std::vector<std::vector<T>> arr, const size_t& d): dim(d){
         this->num_points = arr.size();
         this->points = new Point<T>[this->num_points];
 
@@ -31,10 +30,8 @@ public:
         }
     }
 
-    PointCloud(const std::string& filepath, const size_t& dim, const bool& is_intensity = false){
-        this->dim = dim;
+    PointCloud(const std::string& filepath, const size_t& d, const bool& is_intensity = false): dim(d){
         this->num_points = 0;
-
         std::ifstream input(filepath.c_str(),std::ios::in | std::ios::binary);
         if(!input){
             std::cerr<<"\nThe file was not succesfully opened"<<"\nPlease check that the file currenty exits.";
