@@ -5,8 +5,7 @@
 template <class T>
 struct Comparator{
     size_t sort_dim;
-    Comparator(const size_t& d){
-        this->sort_dim = d;
+    Comparator(const size_t& d): sort_dim(d){
     }
     
     bool operator ()(const Point<T>& p1, const Point<T>& p2){
