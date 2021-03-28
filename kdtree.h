@@ -20,7 +20,7 @@ class Kdtree{
             this->total_dim = 0;
             this->num_pts = 0;
         }
-
+        // Constructor
         Kdtree(PointCloud<T>& pc, const size_t& d): total_dim(d){
             this->num_pts = pc.get_size();
             this->root = this->make_tree(pc,0, this->num_pts, 0);
@@ -63,10 +63,6 @@ class Kdtree{
                 
             KdNode<T>* curr_node = new KdNode<T>;
             
-            //auto begin = pnts + l;
-            //auto end = begin + r - l;
-
-            //sort(begin, end, Comparator<T>(dim));
             pc.sort_pc(l,r, dim);
 
             size_t idx = (r-l)/2 + l;
@@ -77,8 +73,8 @@ class Kdtree{
             
             return curr_node;
         }
-        
-        Point<T> nn(const Point<T>& p){
+        // Nearest Neighbour
+        Point<T> nearest_neighbour(const Point<T>& p){
             double min_dist = 1e9;
             KdNode<T>* node = root;
             Point<T> nearest_point;
@@ -88,6 +84,7 @@ class Kdtree{
             return nearest_point;
         }
         
+        // Inorder
         void inorder(){
             KdNode<T>* temp = this->root;
             std::stack<KdNode<T>*> s;
@@ -107,15 +104,7 @@ class Kdtree{
             std::cout<<"Inorder End"<<std::endl;
         }
         
-        void delete_node(KdNode<T>* node){
-            //cout<<"Deleting Nodes"<<endl;
-            if(node){
-                delete_node(node->left);
-                delete_node(node->right);
-                delete node;
-            }
-        }
-        
+        // Destructor
         ~Kdtree(){
             delete_node(this->root);
         }
@@ -184,6 +173,15 @@ class Kdtree{
             }
             temp = nullptr;
             delete temp;
+        }
+    
+        void delete_node(KdNode<T>* node){
+            //cout<<"Deleting Nodes"<<endl;
+            if(node){
+                delete_node(node->left);
+                delete_node(node->right);
+                delete node;
+            }
         }
 
         
