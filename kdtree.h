@@ -78,34 +78,6 @@ class Kdtree{
             return curr_node;
         }
         
-        void find_dist(KdNode<T>* node, const Point<T>& p, double& min_dist, Point<T>& nearest_point, size_t dim){
-            if(node == nullptr)
-                return;
-                
-            double curr_dis = p.distance(node->p);
-            if(curr_dis < min_dist){
-                min_dist = curr_dis;
-                nearest_point = node->p;
-            }           
-
-            if(p.get_dim(dim) < node->p.get_dim(dim)){
-                find_dist(node->left, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
-                
-                double poss_min_dist = (node->p.get_dim(dim) - p.get_dim(dim))*(node->p.get_dim(dim) - p.get_dim(dim));
-                if(min_dist > poss_min_dist)
-                    find_dist(node->right, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
-            }
-            else{
-                find_dist(node->right, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
-                
-                double poss_min_dist = (p.get_dim(dim) - node->p.get_dim(dim))*(p.get_dim(dim) - node->p.get_dim(dim));
-                if(min_dist > poss_min_dist)
-                    find_dist(node->left, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
-                
-            }            
-            return;
-        }
-        
         Point<T> nn(const Point<T>& p){
             double min_dist = 1e9;
             KdNode<T>* node = root;
@@ -149,6 +121,35 @@ class Kdtree{
         }
 
     private:
+    
+        void find_dist(KdNode<T>* node, const Point<T>& p, double& min_dist, Point<T>& nearest_point, size_t dim){
+            if(node == nullptr)
+                return;
+                
+            double curr_dis = p.distance(node->p);
+            if(curr_dis < min_dist){
+                min_dist = curr_dis;
+                nearest_point = node->p;
+            }           
+
+            if(p.get_dim(dim) < node->p.get_dim(dim)){
+                find_dist(node->left, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
+                
+                double poss_min_dist = (node->p.get_dim(dim) - p.get_dim(dim))*(node->p.get_dim(dim) - p.get_dim(dim));
+                if(min_dist > poss_min_dist)
+                    find_dist(node->right, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
+            }
+            else{
+                find_dist(node->right, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
+                
+                double poss_min_dist = (p.get_dim(dim) - node->p.get_dim(dim))*(p.get_dim(dim) - node->p.get_dim(dim));
+                if(min_dist > poss_min_dist)
+                    find_dist(node->left, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
+                
+            }            
+            return;
+        }
+    
         void copy_tree(const Kdtree<T>& kd){
 
             KdNode<T>* temp = this->root;
