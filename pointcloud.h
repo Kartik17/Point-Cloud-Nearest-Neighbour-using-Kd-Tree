@@ -15,12 +15,14 @@ private:
     Point<T>* points;
 
 public:
+    // Constructor
     PointCloud(){
         this->dim = 0;
         this->num_points = 0;
         this->points = nullptr;
     }
-
+    
+    // Constructor using vector as input
     PointCloud(const std::vector<std::vector<T>> arr, const size_t& d): dim(d){
         this->num_points = arr.size();
         this->points = new Point<T>[this->num_points];
@@ -29,7 +31,8 @@ public:
             this->points[i] = Point<T>(arr[i], this->dim); 
         }
     }
-
+    
+    // Constructor using Bin file
     PointCloud(const std::string& filepath, const size_t& d, const bool& is_intensity = false): dim(d){
         this->num_points = 0;
         std::ifstream input(filepath.c_str(),std::ios::in | std::ios::binary);
@@ -57,22 +60,25 @@ public:
 
         input.close();
     }
-
+    
+    // Get the num of points
     size_t get_size() const{
         return this->num_points;
     }
-
+    
+    // Get values of particular Dimension of a Point
     Point<T> get_dim (size_t idx) const{
         return this->points[idx];
     }
-
+    
+    // Sort the Point Cloud between left(l) and right(r)
     void sort_pc(const size_t& l, const size_t& r, const size_t& dim){
         auto begin = this->points + l;
         auto end   = begin + r - l;
         std::sort(begin, end, Comparator<T>(dim));
     }
 
-
+    // Destructor
     ~PointCloud(){
         //cout<<"Check"<<endl;
         delete [] this->points;
