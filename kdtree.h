@@ -98,7 +98,7 @@ class Kdtree{
                 
                 temp = s.top();
                 s.pop();
-                temp->p->print_Point();
+                temp->p->print_point();
                 temp = temp->right;
             }
             std::cout<<"Inorder End"<<std::endl;
