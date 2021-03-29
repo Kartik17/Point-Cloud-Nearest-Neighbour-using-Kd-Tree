@@ -61,7 +61,7 @@ class Point{
             
         }  
         
-        void print_Point() {
+        void print_point() {
             std::cout<<"(";
             for(size_t i = 0; i< dim; ++i)
                 std::cout<<point[i]<<",";
