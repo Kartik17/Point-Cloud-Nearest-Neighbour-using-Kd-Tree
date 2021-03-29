@@ -57,7 +57,7 @@ class Kdtree{
         }
         
         // Generate Kd Tree Routine
-        KdNode<T>* make_tree(PointCloud<T>& pc, size_t l, size_t r, size_t dim){
+        KdNode<T>* make_tree(PointCloud<T>& pc, const size_t& l, const size_t& r, const size_t& dim){
             
             if(l >= r)
                 return nullptr;
