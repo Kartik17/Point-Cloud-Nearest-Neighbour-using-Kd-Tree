@@ -5,6 +5,7 @@
 #include "pointcloud.h"
 #include <stack>
 #include <cmath>
+#include <cfloat>
 
 template <class T>
 class Kdtree{
@@ -66,8 +67,7 @@ class Kdtree{
             pc.sort_pc(l,r, dim);
 
             size_t idx = (r-l)/2 + l;
-            curr_node->p = pc.get_dim(idx);
-            
+            curr_node->p = new Point<T>(pc.get_dim(idx));
             curr_node->left  = make_tree(pc, l , idx , (dim + 1) % this->total_dim);
             curr_node->right = make_tree(pc, idx + 1, r, (dim + 1) % this->total_dim);
             
@@ -75,7 +75,7 @@ class Kdtree{
         }
         // Nearest Neighbour
         Point<T> nearest_neighbour(const Point<T>& p){
-            double min_dist = 1e9;
+            double min_dist = DBL_MAX;
             KdNode<T>* node = root;
             Point<T> nearest_point;
 
@@ -98,7 +98,7 @@ class Kdtree{
                 
                 temp = s.top();
                 s.pop();
-                temp->p.print_Point();
+                temp->p->print_Point();
                 temp = temp->right;
             }
             std::cout<<"Inorder End"<<std::endl;
@@ -115,23 +115,23 @@ class Kdtree{
             if(node == nullptr)
                 return;
                 
-            double curr_dis = p.distance(node->p);
+            double curr_dis = p.distance(*node->p);
             if(curr_dis < min_dist){
                 min_dist = curr_dis;
-                nearest_point = node->p;
+                nearest_point = *(node->p);
             }           
 
-            if(p.get_dim(dim) < node->p.get_dim(dim)){
+            if(p.get_dim(dim) < node->p->get_dim(dim)){
                 find_dist(node->left, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
                 
-                double poss_min_dist = (node->p.get_dim(dim) - p.get_dim(dim))*(node->p.get_dim(dim) - p.get_dim(dim));
+                double poss_min_dist = (node->p->get_dim(dim) - p.get_dim(dim))*(node->p->get_dim(dim) - p.get_dim(dim));
                 if(min_dist > poss_min_dist)
                     find_dist(node->right, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
             }
             else{
                 find_dist(node->right, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
                 
-                double poss_min_dist = (p.get_dim(dim) - node->p.get_dim(dim))*(p.get_dim(dim) - node->p.get_dim(dim));
+                double poss_min_dist = (p.get_dim(dim) - node->p->get_dim(dim))*(p.get_dim(dim) - node->p->get_dim(dim));
                 if(min_dist > poss_min_dist)
                     find_dist(node->left, p, min_dist, nearest_point, (dim + 1)% this->total_dim);
                 
